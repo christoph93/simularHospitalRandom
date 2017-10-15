@@ -10,6 +10,7 @@ import java.util.Queue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -77,8 +78,10 @@ public class HospitalStarter {
             
             hospitals = new HashMap<>(hospCodes.length);
             stopSignal = 0;
+            
+            //ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(stopSignal)
 
-            ExecutorService executor = Executors.newFixedThreadPool(3);
+            ExecutorService executor = Executors.newFixedThreadPool(hospCodes.length + 3);
 
             Clock c = new Clock();
             executor.execute(c);
@@ -91,9 +94,9 @@ public class HospitalStarter {
             //cria uma pop thread para cada hospital
             for (String s : hospCodes) {                
                 HospPop hPop = new HospPop(s);
-                hospitals.put(s, hPop);
-                System.out.println("*Starting pop thread for " + s + "*");
-                executor.execute(hPop);
+                hospitals.put(s, hPop);                
+                //System.out.println("*Starting pop thread for " + s + "*");
+                executor.execute(hPop); 
             }            
             
             executor.shutdown();

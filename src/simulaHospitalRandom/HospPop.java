@@ -34,10 +34,13 @@ public class HospPop implements Runnable {
     @Override
     public void run() {
         
+        System.out.println("*running pop thread for " + hospCode + "*");
+        
         while (running) {
             while (popIntervals.isEmpty()) {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(500);
+                    //System.out.println("Checking " + hospCode + " for pops");
                 } catch (InterruptedException ex) {
                     Logger.getLogger(HospPop.class.getName()).log(Level.SEVERE, null, ex);
                 }

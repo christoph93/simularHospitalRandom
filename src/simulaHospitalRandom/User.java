@@ -8,6 +8,7 @@ package simulaHospitalRandom;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  *
@@ -65,18 +66,14 @@ public class User {
 
     public String bestChoice() {
 
-        long bestTime = 999999999;
-        long currTotalTime = 0;
-
-        for (String s : totalTimes.keySet()) {
-            currTotalTime = queueWaitTimes.get(s) + travelTimes.get(s);
-            //decide se é melhor que o melhor tempo atual
-            if (bestTime > currTotalTime) {
-                bestChoice = s;
-                bestTime = currTotalTime;
-            }
-        }
-        return bestChoice;
+        Random r = new Random();
+        
+        Object[] tTimes = totalTimes.keySet().toArray();
+        int i = r.nextInt(tTimes.length);
+        
+        this.bestChoice = (String) tTimes[i];
+        
+        return this.bestChoice;
     }
 
     @Override
