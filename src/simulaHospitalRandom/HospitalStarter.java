@@ -19,17 +19,17 @@ public class HospitalStarter {
     private FileReader fr;
     String fileName;
     static Queue<User> intervals;
-    static HashMap<String,HospPop> hospitals;
+    static HashMap<String, HospPop> hospitals;
     static int stopSignal;
 
     public HospitalStarter(String file) {
         fileName = file;
     }
 
-    static HashMap<String,HospPop> getHospitals(){
+    static HashMap<String, HospPop> getHospitals() {
         return hospitals;
     }
-    
+
     /*
     
     Lê os a lista de chegadas global e decide para qual hospital o usuário será enviado
@@ -75,12 +75,11 @@ public class HospitalStarter {
 
             br.close();
             fr.close();
-            
+
             hospitals = new HashMap<>(hospCodes.length);
             stopSignal = 0;
-            
-            //ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(stopSignal)
 
+            //ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(stopSignal)
             ExecutorService executor = Executors.newFixedThreadPool(hospCodes.length + 3);
 
             Clock c = new Clock();
@@ -89,26 +88,33 @@ public class HospitalStarter {
             HospPush hospPush = new HospPush();
             System.out.println("*Starting push thread*");
             executor.execute(hospPush);
-            
-                   
+
             //cria uma pop thread para cada hospital
-            for (String s : hospCodes) {                
+            for (String s : hospCodes) {
                 HospPop hPop = new HospPop(s);
-                hospitals.put(s, hPop);                
+                hospitals.put(s, hPop);
                 //System.out.println("*Starting pop thread for " + s + "*");
-                executor.execute(hPop); 
-            }            
-            
+                executor.execute(hPop);
+            }
+
             executor.shutdown();
             while (!executor.isTerminated() && (stopSignal != hospCodes.length)) {
-                if(stopSignal >= hospCodes.length){
+                if (stopSignal >= hospCodes.length) {
                     Clock.stop();
                 }
-                Thread.sleep(500);                
-            }     
+                Thread.sleep(500);
+            }
             Clock.stop();
             System.out.println("Shutting down!");
-            
+
+            System.out.println("Final waiting times: ");
+
+            HospTimes ht = new HospTimes(hospitals.keySet());
+            Map<String, Integer> times = ht.getTimes();
+            times.keySet().forEach((s) -> {
+                System.out.println(s + ": " + times.get(s));
+            });
+
         } catch (FileNotFoundException ex) {
             Logger.getLogger(HospitalStarter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -121,8 +127,8 @@ public class HospitalStarter {
     public FileReader getFr() {
         return fr;
     }
-    
-    static void signalStop(){
+
+    static void signalStop() {
         stopSignal++;
     }
 

@@ -47,7 +47,6 @@ public class User {
 //        System.out.println("totaTimes: " + totalTimes);
 //        System.out.println("travelTimes: " + travelTimes);
 //        System.out.println("queueTimes: " + queueWaitTimes);
-
         return this.totalTimes;
     }
 
@@ -67,12 +66,12 @@ public class User {
     public String bestChoice() {
 
         Random r = new Random();
-        
+
         Object[] tTimes = totalTimes.keySet().toArray();
         int i = r.nextInt(tTimes.length);
-        
+
         this.bestChoice = (String) tTimes[i];
-        
+
         return this.bestChoice;
     }
 

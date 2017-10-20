@@ -59,7 +59,7 @@ public class HospPop implements Runnable {
                 } //cheogu no final da fila e não serão colocados mais elementos
 
                 try {
-                    Thread.sleep(popInterval * 1000);
+                    Thread.sleep(Math.abs(popInterval * 1000));
                 } catch (InterruptedException ex) {
                     Logger.getLogger(HospPop.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -68,7 +68,7 @@ public class HospPop implements Runnable {
 
                 List<NameValuePair> jsonData = new ArrayList<>();
                 jsonData.add(new BasicNameValuePair("hospitalCode", hospCode));
-                p = new Post("http://tcc-si.herokuapp.com/api/queue/pop", jsonData);
+                p = new Post("https://tcc-si.herokuapp.com/api/queue/pop", jsonData);
 
                 ArrayList<String> response = new ArrayList<>();                
 

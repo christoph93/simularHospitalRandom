@@ -26,17 +26,17 @@ class Clock implements Runnable {
             Logger.getLogger(Clock.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        i = 0;
+        //i = 0;
         while (aux) {
-            System.out.println(i);
+            System.out.println("-");
 
             try {
-                Thread.sleep(1000);
+                Thread.sleep(30000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Clock.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            i++;
+            //i++;
         }                
     }
 

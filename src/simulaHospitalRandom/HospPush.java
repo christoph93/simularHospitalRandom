@@ -21,7 +21,7 @@ public class HospPush implements Runnable {
         Map<String, Integer> queueWaitTimes = null;
 
         //getTimeInterval é o intervalo de ciclos para atualizar os tempos.
-        int getTimeInterval = 5;
+        int getTimeInterval = 2;
 
         //para atualizar na primeira vez que entrar no for
         int i = getTimeInterval;
@@ -64,7 +64,7 @@ public class HospPush implements Runnable {
 
             jsonData.add(new BasicNameValuePair("hospitalCode", u.bestChoice())); //atribui a melhor escolha para hospitalCode           
 
-            Post p = new Post("http://tcc-si.herokuapp.com/api/queue/push", jsonData);
+            Post p = new Post("https://tcc-si.herokuapp.com/api/queue/push", jsonData);
             ArrayList<String> response = new ArrayList<>();
 
             try {
