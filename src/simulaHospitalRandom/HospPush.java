@@ -16,15 +16,15 @@ public class HospPush implements Runnable {
         long time = 0;
 
         //usa o keySet (lista de hospitais)
-        HospTimes hTimes = new HospTimes(HospitalStarter.getIntervals().peek().getTravelTimes().keySet());
+      //  HospTimes hTimes = new HospTimes(HospitalStarter.getIntervals().peek().getTravelTimes().keySet());
 
         Map<String, Integer> queueWaitTimes = null;
 
         //getTimeInterval é o intervalo de ciclos para atualizar os tempos.
-        int getTimeInterval = 2;
+       // int getTimeInterval = 2;
 
         //para atualizar na primeira vez que entrar no for
-        int i = getTimeInterval;
+      //  int i = getTimeInterval;
 
         while (!HospitalStarter.getIntervals().isEmpty()) {
             User u = HospitalStarter.getIntervals().poll(); //pega o próximo elemento da fila
@@ -38,7 +38,7 @@ public class HospPush implements Runnable {
             }
 
             //atualiza os tempos em um itervalo para não sobrecarregar o backend
-            if (getTimeInterval == i) {
+          /*  if (getTimeInterval == i) {
                 try {
                     queueWaitTimes = hTimes.getTimes();
                     System.out.println("Updating wait times: " + queueWaitTimes);
@@ -48,18 +48,13 @@ public class HospPush implements Runnable {
                 i = 0;
             }
             i++;
-
+*/
             //intervalo            
             List<NameValuePair> jsonData = new ArrayList<>();
+            // u.calculateTotalTimes(queueWaitTimes);
+            //cria o post para a melhor escolha
+            //  u.calculateTotalTimes(); //calcula os tempos
 
-            u.calculateTotalTimes(queueWaitTimes);
-            
-            try {
-                //cria o post para a melhor escolha
-                u.calculateTotalTimes(); //calcula os tempos
-            } catch (IOException ex) {
-                Logger.getLogger(HospPush.class.getName()).log(Level.SEVERE, null, ex);
-            }
              
 
             jsonData.add(new BasicNameValuePair("hospitalCode", u.bestChoice())); //atribui a melhor escolha para hospitalCode           
@@ -93,7 +88,7 @@ public class HospPush implements Runnable {
             //para sinalizar que não serão iseridos novos intervalos
             if (HospitalStarter.getIntervals().isEmpty()) {                
                 for(String s : HospitalStarter.hospitals.keySet()){
-                    HospitalStarter.hospitals.get(s).insertInerval(-1);
+                    HospitalStarter.hospitals.get(s).insertInerval(-999999);
                 }
                 
                 System.out.println("Finished pushing");

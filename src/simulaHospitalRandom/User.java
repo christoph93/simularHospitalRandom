@@ -21,7 +21,7 @@ public class User {
     private HashMap<String, Integer> totalTimes;
     private int arrivalDelay;
     private int service;
-    private String bestChoice = "no best choice";
+    private String bestChoice = "";
 
     public User(Map<String, Integer> travelTimes, int arrival, int service) {
         this.travelTimes = travelTimes;
@@ -40,7 +40,8 @@ public class User {
 
         queueWaitTimes.keySet().stream().forEach((s) -> {
             //calcula o tempo total para cada hospital         
-            localTotalTimes.put(s, travelTimes.get(s) + queueWaitTimes.get(s));
+            //localTotalTimes.put(s, travelTimes.get(s) + queueWaitTimes.get(s));
+            localTotalTimes.put(s,0);
         });
         this.totalTimes = localTotalTimes;
 
@@ -57,21 +58,23 @@ public class User {
 
         queueWaitTimes.keySet().stream().forEach((s) -> {
             //calcula o tempo total para cada hospital         
-            totalTimes.put(s, travelTimes.get(s) + queueWaitTimes.get(s));
+            totalTimes.put(s, 0);
         });
         this.totalTimes = totalTimes;
         return totalTimes;
     }
 
     public String bestChoice() {
+        if (this.bestChoice.equals("")) {
 
-        Random r = new Random();
+            Random r = new Random();
 
-        Object[] tTimes = totalTimes.keySet().toArray();
-        int i = r.nextInt(tTimes.length);
+            
+            Object[] tTimes = HospitalStarter.hospitals.keySet().toArray();
+            int i = r.nextInt(tTimes.length);
 
-        this.bestChoice = (String) tTimes[i];
-
+            this.bestChoice = (String) tTimes[i];
+        }
         return this.bestChoice;
     }
 

@@ -23,6 +23,7 @@ public class HospPop implements Runnable {
 
     public void insertInerval(int interval) {
         popIntervals.offer(interval);
+        //System.out.println(popIntervals);
     }
     
     public boolean queueIsEmpty(){
@@ -53,7 +54,7 @@ public class HospPop implements Runnable {
                 int popInterval = popIntervals.peek();  
                 
                 
-                if(popInterval == -1){
+                if(popInterval == -999999){
                     running = false;
                     break;
                 } //cheogu no final da fila e não serão colocados mais elementos
